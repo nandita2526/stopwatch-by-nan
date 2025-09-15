@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attractive Stopwatch</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .stopwatch {
+      text-align: center;
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .time {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .start { background: #28a745; color: white; }
+    .stop { background: #dc3545; color: white; }
+    .reset { background: #ffc107; color: white; }
+
+    .buttons button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="stopwatch">
+    <div class="time" id="display">00:00:00</div>
+    <div class="buttons">
+      <button class="start" onclick="start()">Start</button>
+      <button class="stop" onclick="stop()">Stop</button>
+      <button class="reset" onclick="reset()">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    let timer;
+    let [hours, minutes, seconds] = [0, 0, 0];
+    let running = false;
+
+    function updateDisplay() {
+      let h = hours < 10 ? "0" + hours : hours;
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+      document.getElementById("display").innerText = `${h}:${m}:${s}`;
+    }
+
+    function tick() {
+      seconds++;
+      if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+      }
+      if (minutes == 60) {
+        minutes = 0;
+        hours++;
+      }
+      updateDisplay();
+    }
+
+    function start() {
+      if (!running) {
+        timer = setInterval(tick, 1000);
+        running = true;
+      }
+    }
+
+    function stop() {
+      clearInterval(timer);
+      running = false;
+    }
+
+    function reset() {
+      clearInterval(timer);
+      [hours, minutes, seconds] = [0, 0, 0];
+      updateDisplay();
+      running = false;
+    }
+  </script>
+</body>
+</html>
